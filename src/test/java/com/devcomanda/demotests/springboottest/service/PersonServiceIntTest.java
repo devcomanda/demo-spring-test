@@ -25,15 +25,15 @@ public class PersonServiceIntTest {
 
     @Test
     @Sql("/person-data.sql")
-    public void shouldReturnListPersonsWithGivenName() {
+    public void shouldReturnPeopleWithGivenName() {
         String testName = "testName";
         String testEmail = "test@email.com";
         Person expectedPerson = new Person(testName, testEmail);
         expectedPerson.setId(1L);
 
-        List<Person> persons = this.personService.loadPersonsByName(testName);
+        List<Person> people = this.personService.loadPeopleByName(testName);
 
-        assertThat(persons)
+        assertThat(people)
                 .hasSize(1)
                 .containsExactlyInAnyOrder(expectedPerson);
     }

@@ -29,7 +29,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void shouldReturnListPersonsWithGivenName() {
+    public void shouldReturnPeopleWithGivenName() {
 
         String expectedName = "testName";
         String expectedEmail = "testEmail";
@@ -38,9 +38,9 @@ public class PersonServiceTest {
 
         when(this.personRepository.findAllByName(eq(expectedName))).thenReturn(Collections.singletonList(person));
 
-        List<Person> persons = this.personService.loadPersonsByName(expectedName);
+        List<Person> people = this.personService.loadPeopleByName(expectedName);
 
-        assertThat(persons)
+        assertThat(people)
                 .isNotNull()
                 .containsExactlyInAnyOrder(person);
 

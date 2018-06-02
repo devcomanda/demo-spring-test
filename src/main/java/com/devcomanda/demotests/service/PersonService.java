@@ -17,7 +17,7 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public List<Person> loadPersonsByName(String name) {
+    public List<Person> loadPeopleByName(String name) {
         return this.personRepository.findAllByName(name);
     }
 }

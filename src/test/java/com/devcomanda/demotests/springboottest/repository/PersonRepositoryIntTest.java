@@ -24,28 +24,28 @@ public class PersonRepositoryIntTest {
     TestEntityManager testEntityManager;
 
     @Test
-    public void shouldReturnListPersonsWithGivenName() {
+    public void shouldReturnPeopleWithGivenName() {
         String expectedName = "testName";
         String expectedEmail = "test@email.com";
 
         Person person = new Person(expectedName, expectedEmail);
         testEntityManager.persist(person);
 
-        List<Person> persons = this.personRepository.findAllByName(expectedName);
+        List<Person> people = this.personRepository.findAllByName(expectedName);
 
-        assertThat(persons)
+        assertThat(people)
                 .isNotNull()
                 .hasSize(1)
                 .containsExactlyInAnyOrder(person);
     }
 
     @Test
-    public void shouldReturnEmptyListPersonsWithGivenNameIfPersonNotFound() {
+    public void shouldReturnEmptyPeopleWithGivenNameIfPersonNotFound() {
         String expectedName = "testName";
 
-        List<Person> persons = this.personRepository.findAllByName(expectedName);
+        List<Person> people = this.personRepository.findAllByName(expectedName);
 
-        assertThat(persons)
+        assertThat(people)
                 .isNotNull()
                 .hasSize(0);
     }

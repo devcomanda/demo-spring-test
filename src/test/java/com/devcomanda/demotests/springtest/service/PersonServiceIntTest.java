@@ -33,14 +33,14 @@ public class PersonServiceIntTest {
     private PersonService personService;
 
     @Test
-    public void shouldReturnListPersonsWithGivenName() {
+    public void shouldReturnPeopleWithGivenName() {
         String expectedName = "testName";
         String expectedEmail = "testEmail";
         Person person = new Person(expectedName, expectedEmail);
         this.em.persist(person);
 
-        List<Person> persons = this.personService.loadPersonsByName(expectedName);
+        List<Person> people = this.personService.loadPeopleByName(expectedName);
 
-        assertThat(persons).containsExactlyInAnyOrder(person);
+        assertThat(people).containsExactlyInAnyOrder(person);
     }
 }
