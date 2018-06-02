@@ -2,6 +2,7 @@ package com.devcomanda.demotests.springtest.repository;
 
 import com.devcomanda.demotests.model.Person;
 import com.devcomanda.demotests.repository.PersonRepository;
+import com.devcomanda.demotests.springtest.config.TestJpaConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

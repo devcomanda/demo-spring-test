@@ -1,4 +1,4 @@
-package com.devcomanda.demotests.springtest.repository;
+package com.devcomanda.demotests.springtest.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,6 @@ import java.util.Properties;
 @Configuration
 @EnableJpaRepositories(basePackages = {"com.devcomanda.demotests.repository"})
 @EnableTransactionManagement
-//@EntityScan(basePackages = {"com.devcomanda.demospringboottests.model"})
 public class TestJpaConfiguration {
 
     //see more about this configuration https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.repositories
@@ -39,7 +38,7 @@ public class TestJpaConfiguration {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("com.devcomanda.demotests.model");  // or use @EntityScan
+        factory.setPackagesToScan("com.devcomanda.demotests.model");
         factory.setDataSource(dataSource());
         factory.setJpaProperties(additionalProperties());
         return factory;
