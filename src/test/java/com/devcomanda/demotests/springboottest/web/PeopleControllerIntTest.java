@@ -1,20 +1,19 @@
-package com.devcomanda.demotests.springtest.web;
+package com.devcomanda.demotests.springboottest.web;
 
 import com.devcomanda.demotests.model.Person;
 import com.devcomanda.demotests.service.PersonService;
-import com.devcomanda.demotests.web.PeopleController;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,17 +21,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
+@WebMvcTest
 public class PeopleControllerIntTest {
-    @Mock
-    private PersonService personService;
 
+    @Autowired
     private MockMvc mockMvc;
 
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new PeopleController(personService)).build();
-    }
+    @MockBean
+    private PersonService personService;
 
     @Test
     public void shouldReturnPageWithPeopleListWithGivenName() throws Exception {
@@ -47,6 +43,21 @@ public class PeopleControllerIntTest {
                 get("/people/search")
                         .param("name", testName)
         )
+                .andExpect(status().isOk())
+                .andExpect(view().name("people"))
+                .andExpect(model().attributeExists("people"))
+                .andExpect(model().attribute("people", people))
+                .andDo(print());
+    }
+
+    @Test
+    public void shouldReturnEmptyPeopleListWithGivenNameIfPersonNotFound() throws Exception {
+
+        List<Person> people = Collections.emptyList();
+
+        when(this.personService.loadPeopleByName(any())).thenReturn(people);
+
+        this.mockMvc.perform(get("/people/search"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("people"))
                 .andExpect(model().attributeExists("people"))
