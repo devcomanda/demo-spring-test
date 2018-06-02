@@ -1,0 +1,1 @@
+insert into person (id, name,email) values (1,'testName','test@email.com');
