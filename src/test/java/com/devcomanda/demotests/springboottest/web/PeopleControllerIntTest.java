@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -16,6 +17,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -31,6 +33,7 @@ public class PeopleControllerIntTest {
     private PersonService personService;
 
     @Test
+    @WithMockUser("admin")
     public void shouldReturnPageWithPeopleListWithGivenName() throws Exception {
         String testName = "testName";
         String testEmail = "testEmail";
@@ -57,7 +60,12 @@ public class PeopleControllerIntTest {
 
         when(this.personService.loadPeopleByName(any())).thenReturn(people);
 
-        this.mockMvc.perform(get("/people/search"))
+        this.mockMvc.perform(
+                get("/people/search")
+                        .with(user("admin")
+                                .password("admin")
+                        )
+        )
                 .andExpect(status().isOk())
                 .andExpect(view().name("people"))
                 .andExpect(model().attributeExists("people"))
